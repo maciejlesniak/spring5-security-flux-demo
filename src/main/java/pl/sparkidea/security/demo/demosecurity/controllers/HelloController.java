@@ -4,8 +4,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
-import reactor.core.publisher.Flux;
-
 
 /**
  * @author Maciej Lesniak
@@ -15,15 +13,15 @@ import reactor.core.publisher.Flux;
 public class HelloController {
 
     @GetMapping("/hello")
-    public Flux<String> hello() {
+    public String hello() {
         log.debug("hello");
-        return Flux.just("hello");
+        return "hello";
     }
 
     @GetMapping("/")
-    public Flux<String> home() {
+    public String home() {
         log.debug("home");
-        return Flux.just("home");
+        return "home";
     }
 
 }
