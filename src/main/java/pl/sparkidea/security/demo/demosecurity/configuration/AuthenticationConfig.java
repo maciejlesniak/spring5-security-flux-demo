@@ -13,13 +13,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  * @author Maciej Lesniak
  */
 @Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
+public class AuthenticationConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         http
+                .csrf().disable()
                 .sessionManagement().disable()
                 .authorizeRequests()
                 .requestMatchers(EndpointRequest.to("status", "info")).authenticated()
@@ -34,19 +34,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable();
     }
 
-
-
-
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
         auth.inMemoryAuthentication()
-                .withUser("user").password("user").roles("USER").and()
+                .withUser("user").password("user").roles("USER")
+                .and()
                 .withUser("swagger").password("swagger").roles("SWAGGER");
 
     }
-
 
     @Bean
     @Override
