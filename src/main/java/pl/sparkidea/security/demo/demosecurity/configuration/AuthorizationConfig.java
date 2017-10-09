@@ -34,8 +34,9 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
                 .authorities("ROLE_USER")
                 .scopes("read", "write", "trust")
                 .secret("admin")
-                .accessTokenValiditySeconds(120).
-                refreshTokenValiditySeconds(600);
+                .autoApprove(true)
+                .accessTokenValiditySeconds(120)
+                .refreshTokenValiditySeconds(600);
     }
 
 

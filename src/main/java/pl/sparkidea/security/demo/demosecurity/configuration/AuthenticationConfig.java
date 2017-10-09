@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 
 /**
  * @author Maciej Lesniak
@@ -20,15 +21,17 @@ public class AuthenticationConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .csrf().disable()
-                .sessionManagement().disable()
+                .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .and()
                 .authorizeRequests()
-                .requestMatchers(EndpointRequest.to("status", "info")).authenticated()
-                .requestMatchers(EndpointRequest.toAnyEndpoint()).authenticated()
-                .requestMatchers(StaticResourceRequest.toCommonLocations()).permitAll()
-                .antMatchers("/v2/api-docs").hasRole("SWAGGER")
-                .antMatchers("/").anonymous()
-                .antMatchers("/**").hasAnyRole("USER")
-                .and()
+                    .requestMatchers(EndpointRequest.to("status", "info")).authenticated()
+                    .requestMatchers(EndpointRequest.toAnyEndpoint()).authenticated()
+                    .requestMatchers(StaticResourceRequest.toCommonLocations()).permitAll()
+                    .antMatchers("/v2/api-docs").hasRole("SWAGGER")
+                    .antMatchers("/").anonymous()
+                    .antMatchers("/**").hasAnyRole("USER")
+                    .and()
                 .httpBasic()
                 .and()
                 .formLogin().disable();
